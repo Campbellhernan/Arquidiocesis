@@ -69,7 +69,7 @@
 										</div>
 									</div>
 									<!-- / ubiacion -->
-									<div class="form-group">
+									<div class="form-group ui-widget">
 										<label>Direccion</label>
 										<input class="form-control" id="direccion_busqueda" name="direccion" type="text" placeholder="Direccion">
 									</div>

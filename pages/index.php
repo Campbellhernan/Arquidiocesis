@@ -337,6 +337,14 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
 				<textarea id="direccion" name="direccion" placeholder="Direccion" class="form-control" rows="4"></textarea>
 			</div>
 			<div class="form-group">
+				<p><label>Color</label></p>
+				<select id="cboColor" name="cboColor" class="form-control" >
+					<option value="#ffff00" size="10">Seleccionar...</option>
+					<option value='#dff442'>Amarillo</option>
+					<option value='#4286f4'>Azul</option>
+				</select>
+			</div>
+			<div class="form-group">
 				<label>Ubicación Google Maps</label>
 				<input type="hidden" id="maps_create_hidden" name="map_position">
 				<div class="extended_map" id="maps_create_map"></div>
@@ -429,6 +437,14 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
 			<div class="form-group">
 				<label>Direccion</label>
 				<textarea id="direccion_edit" name="direccion" placeholder="Direccion" class="form-control" rows="4"></textarea>
+			</div>
+			<div class="form-group">
+				<p><label>Color</label></p>
+				<select id="cboEditColor" name="cboEditColor" class="form-control" >
+					<option value="#ffff00" size="10">Seleccionar...</option>
+					<option value='#dff442'>Amarillo</option>
+					<option value='#4286f4'>Azul</option>
+				</select>
 			</div>
 			<div class="form-group">
 				<label>Ubicación Google Maps</label>
@@ -541,7 +557,7 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
     <!-- Bootstrap Core JavaScript -->
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <!-- Metis Menu Plugin JavaScript -->
+    <!-- Metis Menu Plugin JavaScript --> 
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
 	<script src="../bower_components/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
@@ -613,8 +629,12 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
 
 	<!-- maps.js -->
 	<script src="../js/maps.js"></script>
+	
+
 
 	<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=drawing&key=AIzaSyCdQ0G7qgbWzh8o9fcdtpotCSZYnhWeoZI&callback=initMap"></script>
+
+	<script src="../js/autocomplete.js"></script>
 </body>
 
 </html>

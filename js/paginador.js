@@ -6,7 +6,6 @@ $(document).ready(function() {
 		
 		$.get("listaInmuebles.php?numPage="+page, function(data){
 			$("#lista").empty().html(data);
-		});
-		
+		});	
     });              
 });

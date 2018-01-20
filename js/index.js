@@ -7,6 +7,8 @@ $(function(){
 	var parroquia_busqueda = $("#parroquia_busqueda");
 	var direccion_busqueda = $("#direccion_busqueda");
 
+
+
 	$("#buscarDoc").on("click", function (){
 		errorBusqDoc.text("");
 		if(fechaValida()){
@@ -81,4 +83,5 @@ $(function(){
 	/*$("#abrirBusquedaInmueble").click(function(){
 
 	});*/
+
 });

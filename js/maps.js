@@ -7,7 +7,7 @@ function initMap() {
 
         var options = {};
         var marker;
-
+        
         var map = new google.maps.Map(document.getElementById('mini_map' + id), {
             zoom: 18,
             mapTypeId: 'roadmap',
@@ -24,7 +24,7 @@ function initMap() {
                 break;
             case google.maps.drawing.OverlayType.POLYGON:
                 var marker = new google.maps.Polygon({
-                    fillColor: '#ffff00',
+                    fillColor: values['color'] ? values['color'] : '#ffff00',
                     fillOpacity: 0.35,
                     strokeWeight: 1,
                     zIndex: 1,
@@ -37,7 +37,7 @@ function initMap() {
                 break;
             case google.maps.drawing.OverlayType.RECTANGLE:
                 var marker = new google.maps.Rectangle({
-                    fillColor: '#ffff00',
+                    fillColor: values['color'] ? values['color'] : '#ffff00',
                     fillOpacity: 0.35,
                     strokeWeight: 1,
                     zIndex: 1,

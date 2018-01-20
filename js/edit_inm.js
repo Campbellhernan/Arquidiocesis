@@ -213,7 +213,7 @@
                     clickable: true,
                 },
                 rectangleOptions: {
-                    fillColor: '#ffff00',
+                    fillColor: values['color'] ? values['color'] : '#ffff00',
                     fillOpacity: 0.35,
                     strokeWeight: 1,
                     clickable: true,
@@ -221,7 +221,7 @@
                     zIndex: 1
                 },
                 polygonOptions: {
-                    fillColor: '#ffff00',
+                    fillColor: values['color'] ? values['color'] : '#ffff00',
                     fillOpacity: 0.35,
                     strokeWeight: 1,
                     clickable: true,
@@ -243,7 +243,7 @@
                     break;
                 case google.maps.drawing.OverlayType.POLYGON:
                     var marker = new google.maps.Polygon({
-                        fillColor: '#ffff00',
+                        fillColor: values['color'] ? values['color'] : '#ffff00',
                         fillOpacity: 0.35,
                         strokeWeight: 1,
                         clickable: true,
@@ -258,7 +258,7 @@
                     break;
                 case google.maps.drawing.OverlayType.RECTANGLE:
                     var marker = new google.maps.Rectangle({
-                        fillColor: '#ffff00',
+                        fillColor: values['color'] ? values['color'] : '#ffff00',
                         fillOpacity: 0.35,
                         strokeWeight: 1,
                         clickable: true,
@@ -270,6 +270,28 @@
                     map.setCenter(marker.getBounds().getCenter());
                     break;
             }
+
+            $( "#cboEditColor" ).change(function(){
+                var Color = $( "#cboEditColor" ).val();
+                drawingManager.setOptions({
+                    rectangleOptions: {
+                        fillColor: Color,
+                        fillOpacity: 0.35,
+                        strokeWeight: 1,
+                        clickable: true,
+                        editable: true,
+                        zIndex: 1
+                    },
+                    polygonOptions: {
+                        fillColor: Color,
+                        fillOpacity: 0.35,
+                        strokeWeight: 1,
+                        clickable: true,
+                        editable: true,
+                        zIndex: 1
+                    }
+                });              
+            });
 
             google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
                 var position = {'type': event.type};
@@ -287,9 +309,11 @@
                             });
                         });
                         position['data'] = points;
+                        position['color'] = drawingManager.polygonOptions.fillColor;
                         break;
                     case google.maps.drawing.OverlayType.RECTANGLE:
                         position['data'] = marker.getBounds().toJSON();
+                        position['color'] = drawingManager.rectangleOptions.fillColor;
                         break;
                 }
 
@@ -377,7 +401,7 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             center: {lat: 10.182848, lng: -68.002635}
         });
-
+        var Color = $( "#cboColor" ).val();
         var drawingManager = new google.maps.drawing.DrawingManager({
             drawingMode: google.maps.drawing.OverlayType.MARKER,
             drawingControl: true,
@@ -395,7 +419,7 @@
                 clickable: true,
             },
             rectangleOptions: {
-                fillColor: '#ffff00',
+                fillColor: Color,
                 fillOpacity: 0.35,
                 strokeWeight: 1,
                 clickable: true,
@@ -403,7 +427,7 @@
                 zIndex: 1
             },
             polygonOptions: {
-                fillColor: '#ffff00',
+                fillColor: Color,
                 fillOpacity: 0.35,
                 strokeWeight: 1,
                 clickable: true,
@@ -411,7 +435,27 @@
                 zIndex: 1
             }
         });
-
+        $( "#cboColor" ).change(function(){
+            var Color = $( "#cboColor" ).val();
+            drawingManager.setOptions({
+                rectangleOptions: {
+                    fillColor: Color,
+                    fillOpacity: 0.35,
+                    strokeWeight: 1,
+                    clickable: true,
+                    editable: true,
+                    zIndex: 1
+                },
+                polygonOptions: {
+                    fillColor: Color,
+                    fillOpacity: 0.35,
+                    strokeWeight: 1,
+                    clickable: true,
+                    editable: true,
+                    zIndex: 1
+                }
+            });              
+        });
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
             var position = {'type': event.type};
             marker = event.overlay;
@@ -428,9 +472,11 @@
                         });
                     });
                     position['data'] = points;
+                    position['color'] = drawingManager.polygonOptions.fillColor;
                     break;
                 case google.maps.drawing.OverlayType.RECTANGLE:
                     position['data'] = marker.getBounds().toJSON();
+                    position['color'] = drawingManager.rectangleOptions.fillColor;
                     break;
             }
 
