@@ -141,10 +141,10 @@
                 },*/
                 //una vez finalizado correctamente
                 success: function(data){
-                    $("#mostrarInmuebles").empty();
-                    $("#mostrarInmuebles").load("procesarInm.php", function() {
-            	  		initMap();
-            		});
+                    //$("#mostrarInmuebles").empty();
+                    //$("#mostrarInmuebles").load("procesarInm.php", function() {
+            	  	//	initMap();
+            		//});
                 },
                 //si ha ocurrido un error
                 error: function(){
@@ -154,7 +154,9 @@
                 }
             });
 
+
             dialogNewInm.dialog("close");
+            location.reload(true);
         }
         return valid;
     }
@@ -183,6 +185,20 @@
 
     $("#create-inm").button().on( "click", function(event) {
         event.preventDefault();
+        //debo resetear donde van los subinmuebles
+        //quitar lo necesario y volver a colocar
+        if($("#ultimo_contador_hijos").val() > 0){
+        for(var i = 0; i < $("#ultimo_contador_hijos").val(); i++){
+        $("#sub_inmueble_select["+ i + "]").remove();
+        }
+        }
+        $("#sub_inmueble_select["+"0"+"]").remove();
+            $("#sub_inmuebles").empty();
+
+        /*$("#sub_inmuebles").append("                    <select name=\"sub_inmueble_select[0]\" class=\"form-control\">\n" +
+            "                        <option value=\"ningun\">Seleccionar</option>\n" +
+            "                        <?php include 'selectSubInmuebles.php'; ?>\n" +
+            "                    </select>");*/
         tips.text('');
        dialogNewInm.dialog( "open" );
     });

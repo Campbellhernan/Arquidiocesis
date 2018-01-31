@@ -24,6 +24,12 @@ $datos_registro = $_REQUEST['datos_registro_doc'];
 $abogado_redactor = $_REQUEST['abogado_redactor_doc'];
 $estatus = $_REQUEST['estatus'];
 $map_position = $_REQUEST['map_position'];
+$contador_hijos_edit = $_REQUEST['contador_hijos_edit'];
+
+$hijos = array();
+for($i=0; $i <= $contador_hijos_edit; $i++){
+    $hijos[] = $_REQUEST['sub_inmueble_select_edit_'.$i];
+}
 
 if ($fecha) {
     $fecha = date_create_from_format("d-m-Y", $fecha);
@@ -49,3 +55,24 @@ foreach ($_FILES['archivo_inmueble']['error'] as $key => $error) {
 		move_uploaded_file($_FILES['archivo_inmueble']['tmp_name'][$key], $folder . "/" . $name);
 	}
 }
+
+$get_ids = "SELECT `DIN_ID` FROM `din_divisiones_inmuebles` WHERE DIN_PADRE = '$id_inm'";
+$resultado_hijos = mysqli_query($conexion, $get_ids) or die("Error consultando id del inmueble");
+//$fila_para_hijos = mysqli_fetch_array($resultado_hijos);
+$ids_relaciones_inmuebles = array();
+while($id_relacion_inmueble_temporal = mysqli_fetch_array($resultado_hijos)){
+    $ids_relaciones_inmuebles[] = $id_relacion_inmueble_temporal['DIN_ID'];
+}
+//ahora añado a la tabla
+//necesito el id dmysqli_query($conexion, $get_ids)el inmueble, no el codigo
+$indice = 0;
+foreach ($hijos as $inmueble_temporal){
+    if($ids_relaciones_inmuebles[$indice]!=null) {
+        $actualizacion = "UPDATE `din_divisiones_inmuebles` SET DIN_PADRE = $id_inm, DIN_HIJO = $inmueble_temporal WHERE DIN_ID = $ids_relaciones_inmuebles[$indice]";
+    }else{
+        $actualizacion = "INSERT INTO `din_divisiones_inmuebles` (`DIN_PADRE`, `DIN_HIJO`) VALUES ('$id_inm', '$inmueble_temporal')";
+    }
+    mysqli_query($conexion, $actualizacion) or die("Error en la insercion de la relacion");
+    $indice++;
+}
+//tengo que verificar si el hijo esta en el array

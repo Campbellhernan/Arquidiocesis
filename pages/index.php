@@ -404,6 +404,34 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
 				<label>Documento</label>
 				<input type="file" id="archivo_inmueble" name="archivo_inmueble[]" multiple>
 			</div>
+                        <!-- Aqui va la opcion para agregar hijos-->
+            
+            <hr/>
+            <!-- Informacion del documento -->
+            <h4>Sub-Inmuebles</h4>
+            
+            <div class="form-group">
+                <p><label>Sub-Inmuebles</label></p>
+                <div id = "sub_inmuebles"  name="sub_inmuebles">
+                    <!--<select name="sub_inmuebles" id="sub_inmuebles" class="form-control">-->
+                    <!--
+                    <select name="sub_inmueble_select[0]" class="form-control">
+                        <option value="ningun">Seleccionar</option>
+                        <?php include 'selectSubInmuebles.php'; ?>
+                    </select>-->
+                </div>
+                <button type="button" id="btn-add-to-select-sub-inm">Añadir</button>
+            </div>
+ 
+            <!-- contador de hijos -->
+            <div class="form-group">
+                <input hidden value="-1" type="text" id="contador_hijos" name="contador_hijos" multiple>
+            </div>
+ 
+            <!-- contador de hijos -->
+            <div class="form-group">
+                <input hidden type="text" id="ultimo_contador_hijos" name="ultimo_contador_hijos" multiple>
+            </div>
 
 		</form>
 	</div>
@@ -509,6 +537,25 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
 
 			<div class="btn-toolbar" id="list_archivo_inmueble_edit">
 			</div>
+
+            <!-- Aqui va la opcion para agregar hijos-->
+            
+            <hr/>
+            <!-- Informacion del documento -->
+            <h4>Sub-Inmuebles</h4>
+ 
+            <div class="form-group">
+                <p><label>Sub-Inmuebles</label></p>
+                <div id = "sub_inmuebles_edit"  name="sub_inmuebles_edit">
+ 
+                </div>
+                <button type="button" id="btn-add-to-select-sub-inm-edit">Añadir</button>
+            </div>
+ 
+            <!-- contador de hijos -->
+            <div class="form-group">
+                <input hidden value="0" type="text" id="contador_hijos_edit" name="contador_hijos_edit" multiple>
+            </div>
 
 		</form>
 	</div>

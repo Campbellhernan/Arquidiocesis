@@ -7,7 +7,7 @@ $(function(){
 	var parroquia_busqueda = $("#parroquia_busqueda");
 	var direccion_busqueda = $("#direccion_busqueda");
 
-
+	var sub_inmuebles_added;//pendiente
 
 	$("#buscarDoc").on("click", function (){
 		errorBusqDoc.text("");
@@ -83,5 +83,62 @@ $(function(){
 	/*$("#abrirBusquedaInmueble").click(function(){
 
 	});*/
+    
+    //added
+    
+    //obtengo la accion de agregar del boton y agrego otro option al select
+    $("#btn-add-to-select-sub-inm").click(function(){
+    	console.log("entro");
+    	var to_append;
 
+        var count = parseInt($("#contador_hijos").val());
+        console.log("Valor 1: " + count);
+        var count = parseInt(count) + 1;
+        console.log("Valor 2: " + count);
+        $("#contador_hijos").val(parseInt(count));
+        $("#ultimo_contador_hijos").val(parseInt(count));
+        console.log("Valor 3: " + $("#contador_hijos").val(count));
+
+        $.get("selectSubInmuebles.php", function(data) {
+            $("#sub_inmuebles").append("<select name=\"sub_inmueble_select["+count+"]\" class=\"form-control\">\n" +
+                "                       <option value=\"ningun\">Seleccionar</option>"
+                + data + "</select>");
+        });
+
+
+        // $("#sub_inmuebles").append("</select>");
+
+		/*$.get("procesarInm.php", function(data){
+			$("#mostrarInmuebles").empty().html(data);
+			initMap();
+		});*/
+	});
+
+    //obtengo la accion de agregar del boton y agrego otro option al select
+    $("#btn-add-to-select-sub-inm-edit").click(function(){
+        console.log("entro");
+        var to_append;
+
+        var count = parseInt($("#contador_hijos_edit").val());
+        console.log("Valor 1: " + count);
+        var count = parseInt(count) + 1;
+        console.log("Valor 2: " + count);
+        $("#contador_hijos_edit").val(parseInt(count));
+        console.log("Valor 3: " + $("#contador_hijos_edit").val(count));
+
+        $.get("selectSubInmuebles.php", function(data) {
+            $("#sub_inmuebles_edit").append("<select id=\"sub_inmueble_select_edit_"+count+"\" name=\"sub_inmueble_select_edit_"+count+"\" class=\"form-control\">\n" +
+                "                       <option value=\"ningun\">Seleccionar</option>"
+                + data + "</select>");
+        });
+
+
+        // $("#sub_inmuebles").append("</select>");
+
+        /*$.get("procesarInm.php", function(data){
+            $("#mostrarInmuebles").empty().html(data);
+            initMap();
+        });*/
+    });
+    
 });
