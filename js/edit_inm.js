@@ -143,8 +143,61 @@
 
     $("#mostrarInmuebles").on("click", ".edit_inm", function(event) {
         event.preventDefault();
+            $("#sub_inmuebles_edit").empty();
+
+        // $("#sub_inmuebles_edit").append("                    <select name=\"sub_inmueble_select[0]\" class=\"form-control\">\n" +
+        //     "                        <option value=\"ningun\">Seleccionar</option>\n" +
+        //     "                        <?php include 'selectSubInmuebles.php'; ?>\n" +
+        //     "                    </select>");
         tips.text('');
+
+        var data_for_sub_inmuebles;
+        $.get("selectSubInmuebles.php", function(data2){
+            data_for_sub_inmuebles = data2;
+        });
+
         $.getJSON("enviarDatosDeInm.php?id_inm="+$(this).data('inm'), function(data) {
+
+            //necesito tomar el div sub_inmuebles
+            //le agrego varios dropdowns llenos
+            //luego les coloco el valor que viene de la base de datos
+            //coloco el boton y listo
+            //faltaria revisar el guardado
+            //ahora armo los dropdowns
+            console.log(data.hijos);
+            var list_of_dropdowns = new Array();
+
+            for(j=0; j < data.hijos.length; j++) {
+                list_of_dropdowns[list_of_dropdowns.length] = ("<select id=\"sub_inmueble_select_edit_" + j + "\" name =\"sub_inmueble_select_edit_" + j + "\" class=\"form-control\">\n" +
+                    "                       <option value=\"ningun\">Seleccionar</option>"
+                    + data_for_sub_inmuebles + "</select>");
+            }
+            //ahora lo agrego a la pagina
+            for(j=0; j < list_of_dropdowns.length; j++) {
+                $("#sub_inmuebles_edit").append(list_of_dropdowns[j]);
+            }
+
+
+            for(i=0; i < data.hijos.length; i++) {
+                $("#sub_inmueble_select_edit_" + i).val();
+                $("#sub_inmueble_select_edit_" + i).val(data.valores_hijos[i]);
+                $("#sub_inmueble_select_edit_" + i).val();
+            }
+
+            $("#contador_hijos_edit").val(parseInt(data.hijos.length-1));
+            // for(j=0; j < data.hijos.length; j++){
+            //     console.log("Valor del i fuera de la lambda: " + j);
+            //     // $.get("selectSubInmuebles.php", function(data) {
+            //     //     console.log("Valor del i: " + parseInt(j));
+            //     //     console.log("Valor 2 del i: " + parseInt(j));
+            //     //     $("#sub_inmuebles_edit").append("<select name=\"sub_inmueble_select_edit["+parseInt(j)+"]\" name=\"sub_inmueble_select_edit["+parseInt(j)+"]\" class=\"form-control\">\n" +
+            //     //         "                       <option value=\"ningun\">Seleccionar</option>"
+            //     //         + data + "</select>");
+            //     // });
+            //     console.log("Hijo: " + data.hijos[j]);
+            //     var valor_temporal = data.valores_hijos[j];
+                // $("select option[value='valor_temporal']").attr("selected","selected");
+            // }
             $("#id_inm").val(data.id_inm);
             $("#id_cod_edit").text(data.cod_inm);
             $("#cod_inm_edit").val(data.cod_inm);

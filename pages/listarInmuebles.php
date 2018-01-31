@@ -110,9 +110,46 @@
 						</a>";
 			}
 			echo "</div>";
+			echo "</div>";
+            
+            //agregado para sub-inmuebles**************************
+            echo "<br>";
+
+            //consulta de los hijos
+            $consulta_subinmuebles = "SELECT `DIN_HIJO` FROM `din_divisiones_inmuebles` WHERE DIN_PADRE = ".$fila['id_inm'];
+            //echo "Consulta: ".$consulta_subinmuebles;
+            $inmuebles_hijos = mysqli_query($conexion, $consulta_subinmuebles) or die('Problemas con la consulta');
+            $num_total_inmuebles_hijos= mysqli_num_rows($inmuebles_hijos);
+            if($num_total_inmuebles_hijos > 0){
+                echo "<div class='col-lg-12'>";
+                echo "<h4>Sub-Inmuebles</h4>";
+                echo "<div class='row'>
+                  <div class='col-md-12'>
+                    <ul class='list-group'>";
+            }
+            while ($hijo = $inmuebles_hijos->fetch_array())
+            {
+                //echo $hijo["DIN_HIJO"];
+                //ya tengo el id del hijo, obtengo el nombre y lo imprimo
+                $consulta_codigo_hijo = "SELECT `cod_inm` FROM `inmueble` WHERE id_inm = ".$hijo["DIN_HIJO"];
+                $cod_inm_temp = mysqli_query($conexion, $consulta_codigo_hijo) or die('Problemas con la consulta');
+                $row_cod_inm = $cod_inm_temp->fetch_array();
+//                echo "Codigo del inmueble: ";
+                echo "<li class='list-group-item'>".$row_cod_inm["cod_inm"]."</li>";
+            }
+            if($num_total_inmuebles_hijos > 0){
+                        echo "</ul>
+                      </div>
+                    </div>";
+                echo "</div>";
+            }
+
+
+            //fin de subinmuebles***********************************************
+            
 
 			echo "
-								</div>
+								
 							</div>
 						</div>
 						<!-- /.panel-body -->

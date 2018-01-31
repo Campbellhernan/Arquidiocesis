@@ -22,6 +22,9 @@ $fecha 			= $_REQUEST['fecha'];
 $datos_registro = $_REQUEST['datos_registro_doc'];
 $abogado_redactor = $_REQUEST['abogado_redactor_doc'];
 $map_position = $_REQUEST['map_position'];
+$sub_inmuebles = $_REQUEST['sub_inmueble_select'];
+
+echo $sub_inmuebles;
 
 $estatus = $_REQUEST['estatus'];
 
@@ -42,4 +45,15 @@ foreach ($_FILES['archivo_inmueble']['error'] as $key => $error) {
 		$name = sanitize_file_name(basename($_FILES['archivo_inmueble']['name'][$key]));
 		move_uploaded_file($_FILES['archivo_inmueble']['tmp_name'][$key], $folder . "/" . $name);
 	}
+}
+$get_id = "SELECT `id_inm` FROM `inmueble` WHERE cod_inm = '$cod_inm'";
+$resultado_inmueble = mysqli_query($conexion, $get_id) or die("Error consultando id del inmueble");
+$fila = mysqli_fetch_array($resultado_inmueble);
+$id_inmueble= $fila[id_inm];
+
+//ahora añado a la tabla
+//necesito el id del inmueble, no el codigo
+foreach ($sub_inmuebles as $inmueble_temporal){
+    $insercion = "INSERT INTO `din_divisiones_inmuebles` (`DIN_PADRE`, `DIN_HIJO`) VALUES ('$id_inmueble', '$inmueble_temporal')";
+    mysqli_query($conexion, $insercion) or die("Error en la insercion de la relacion");
 }
