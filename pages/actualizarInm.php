@@ -63,7 +63,7 @@ $ids_relaciones_inmuebles = array();
 while($id_relacion_inmueble_temporal = mysqli_fetch_array($resultado_hijos)){
     $ids_relaciones_inmuebles[] = $id_relacion_inmueble_temporal['DIN_ID'];
 }
-//ahora añado a la tabla
+//ahora aï¿½ado a la tabla
 //necesito el id dmysqli_query($conexion, $get_ids)el inmueble, no el codigo
 $indice = 0;
 foreach ($hijos as $inmueble_temporal){
@@ -72,7 +72,11 @@ foreach ($hijos as $inmueble_temporal){
     }else{
         $actualizacion = "INSERT INTO `din_divisiones_inmuebles` (`DIN_PADRE`, `DIN_HIJO`) VALUES ('$id_inm', '$inmueble_temporal')";
     }
+    $new_cod_inm = $cod_inm."-".str_pad($indice + 1, 3, "0", STR_PAD_LEFT);
+    $UptCode = "UPDATE INMUEBLE SET COD_INM = '$new_cod_inm' WHERE ID_INM = '$inmueble_temporal' ";
+    echo json_encode($inmueble_temporal);
     mysqli_query($conexion, $actualizacion) or die("Error en la insercion de la relacion");
+    mysqli_query($conexion, $UptCode) or die(mysqli_error($conexion));
     $indice++;
 }
 //tengo que verificar si el hijo esta en el array

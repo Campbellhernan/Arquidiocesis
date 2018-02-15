@@ -11,7 +11,8 @@
 	$consulta_ejecutar = "select id_inm, cod_inm, descripcion, modo_adq as id_adq, direccion, metraje, tipo_inm, linderos, fecha, datos_registro, abogado_redactor, estatus, map_position, ".
 						 	"(select archi.nom_arch from archiprestazgo as archi where archi.id_arch = archiprestazgo) as nom_arch, ".
 							"(select parr.nom_parro from parroquia as parr where parr.id_parro = parroquia) as nom_parro, ".
-							"(select nombre from tipo_documento as tipo where tipo.id = id_adq) as modo_adq ".
+							"(select nombre from tipo_documento as tipo where tipo.id = id_adq) as modo_adq, ".
+							"(select count(*) from din_divisiones_inmuebles where din_hijo = id_inm) as es_hijo ".
 							"from inmueble order by fecha_add_inm DESC";
 
 	$registros = mysqli_query($conexion, $consulta_ejecutar) or die('Problemas con la consulta');
@@ -42,7 +43,11 @@
 
 		while($fila = mysqli_fetch_array($registros))
         {
-			echo	"<div class='panel panel-primary'>
+			$color = "panel-primary";
+			if($fila['es_hijo'] > 0){
+				$color = "panel-info";
+			}
+			echo	"<div class='panel $color'>
 						<div class='panel-heading'><span style='font-weight:bold'>Codigo del Inmueble:</span> ".$fila['cod_inm'];
 			if($_SESSION['rol']=='Administrador')//Tiene permiso para borrar un inmueble
 			{
@@ -115,35 +120,34 @@
             //agregado para sub-inmuebles**************************
             echo "<br>";
 
-            //consulta de los hijos
-            $consulta_subinmuebles = "SELECT `DIN_HIJO` FROM `din_divisiones_inmuebles` WHERE DIN_PADRE = ".$fila['id_inm'];
-            //echo "Consulta: ".$consulta_subinmuebles;
-            $inmuebles_hijos = mysqli_query($conexion, $consulta_subinmuebles) or die('Problemas con la consulta');
-            $num_total_inmuebles_hijos= mysqli_num_rows($inmuebles_hijos);
-            if($num_total_inmuebles_hijos > 0){
-                echo "<div class='col-lg-12'>";
-                echo "<h4>Sub-Inmuebles</h4>";
-                echo "<div class='row'>
-                  <div class='col-md-12'>
-                    <ul class='list-group'>";
-            }
-            while ($hijo = $inmuebles_hijos->fetch_array())
-            {
-                //echo $hijo["DIN_HIJO"];
-                //ya tengo el id del hijo, obtengo el nombre y lo imprimo
-                $consulta_codigo_hijo = "SELECT `cod_inm` FROM `inmueble` WHERE id_inm = ".$hijo["DIN_HIJO"];
-                $cod_inm_temp = mysqli_query($conexion, $consulta_codigo_hijo) or die('Problemas con la consulta');
-                $row_cod_inm = $cod_inm_temp->fetch_array();
-//                echo "Codigo del inmueble: ";
-                echo "<li class='list-group-item'>".$row_cod_inm["cod_inm"]."</li>";
-            }
-            if($num_total_inmuebles_hijos > 0){
-                        echo "</ul>
-                      </div>
-                    </div>";
-                echo "</div>";
-            }
-
+				//consulta de los hijos
+				$consulta_subinmuebles = "SELECT `DIN_HIJO` FROM `din_divisiones_inmuebles` WHERE DIN_PADRE = ".$fila['id_inm'];
+				//echo "Consulta: ".$consulta_subinmuebles;
+				$inmuebles_hijos = mysqli_query($conexion, $consulta_subinmuebles) or die('Problemas con la consulta');
+				$num_total_inmuebles_hijos= mysqli_num_rows($inmuebles_hijos);
+				if($num_total_inmuebles_hijos > 0){
+					echo "<div class='col-lg-12'>";
+					echo "<h4>Sub-Inmuebles</h4>";
+					echo "<div class='row'>
+					<div class='col-md-12'>
+						<ul class='list-group'>";
+				}
+				while ($hijo = $inmuebles_hijos->fetch_array())
+				{
+					//echo $hijo["DIN_HIJO"];
+					//ya tengo el id del hijo, obtengo el nombre y lo imprimo
+					$consulta_codigo_hijo = "SELECT `cod_inm` FROM `inmueble` WHERE id_inm = ".$hijo["DIN_HIJO"];
+					$cod_inm_temp = mysqli_query($conexion, $consulta_codigo_hijo) or die('Problemas con la consulta');
+					$row_cod_inm = $cod_inm_temp->fetch_array();
+	//                echo "Codigo del inmueble: ";
+					echo "<li class='list-group-item'>".$row_cod_inm["cod_inm"]."</li>";
+				}
+				if($num_total_inmuebles_hijos > 0){
+							echo "</ul>
+						</div>
+						</div>";
+					echo "</div>";
+				}
 
             //fin de subinmuebles***********************************************
             

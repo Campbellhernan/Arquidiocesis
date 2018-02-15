@@ -30,3 +30,4 @@ pages/uploads/inmuebles/*
 /app/Config/database.php
 /vendors/*
 /nbproject/private/
+js/accordion.js
