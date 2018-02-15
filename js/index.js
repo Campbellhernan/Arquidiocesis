@@ -83,9 +83,18 @@ $(function(){
 	/*$("#abrirBusquedaInmueble").click(function(){
 
 	});*/
-    
+  
+    $("#remove_sub_inmueble_edit_select").click(function() {
+        $("#sub_inmuebles_edit").empty();
+        $("#contador_hijos_edit").val(-1);
+        $("#ultimo_contador_hijos").val(-1);
+    });
     //added
-    
+    $("#remove_sub_inmueble_select").click(function() {
+        $("#sub_inmuebles").empty();
+        $("#contador_hijos").val(-1);
+        $("#ultimo_contador_hijos").val(-1);
+    });
     //obtengo la accion de agregar del boton y agrego otro option al select
     $("#btn-add-to-select-sub-inm").click(function(){
     	console.log("entro");

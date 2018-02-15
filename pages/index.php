@@ -331,7 +331,12 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
 					</select>
 				</div>
 			</div>
-			<!-- / ubiacion -->
+			<!-- / zona -->
+			<div class="form-group">
+				<label>Zona</label>
+                <input id="zona" name="zona" class="form-control" placeholder="Zona">
+			</div>
+            <!-- / ubicacion -->
 			<div class="form-group">
 				<label>Direccion</label>
 				<textarea id="direccion" name="direccion" placeholder="Direccion" class="form-control" rows="4"></textarea>
@@ -408,10 +413,10 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
             
             <hr/>
             <!-- Informacion del documento -->
-            <h4>Sub-Inmuebles</h4>
+            <h4>Desincorporaciones Parciales</h4>
             
             <div class="form-group">
-                <p><label>Sub-Inmuebles</label></p>
+                <!--<p><label>Desincorporaciones Parciales</label></p>-->
                 <div id = "sub_inmuebles"  name="sub_inmuebles">
                     <!--<select name="sub_inmuebles" id="sub_inmuebles" class="form-control">-->
                     <!--
@@ -420,7 +425,11 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
                         <?php include 'selectSubInmuebles.php'; ?>
                     </select>-->
                 </div>
+            </div>
+            <div class="form-group">
+
                 <button type="button" id="btn-add-to-select-sub-inm">Añadir</button>
+                <button type="button" id="remove_sub_inmueble_select">Limpiar</button>
             </div>
  
             <!-- contador de hijos -->
@@ -461,6 +470,11 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
 					</select>
 				</div>
 			</div>
+            <!-- / zona -->
+            <div class="form-group">
+                <label>Zona</label>
+                <input id="zona_edit" name="zona_edit" class="form-control" placeholder="Zona">
+            </div>
 			<!-- / ubiacion -->
 			<div class="form-group">
 				<label>Direccion</label>
@@ -542,14 +556,15 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
             
             <hr/>
             <!-- Informacion del documento -->
-            <h4>Sub-Inmuebles</h4>
+            <h4>Desincorporaciones Parciales</h4>
  
             <div class="form-group">
-                <p><label>Sub-Inmuebles</label></p>
+                <!--<p><label>Desincorporaciones Parciales</label></p>-->
                 <div id = "sub_inmuebles_edit"  name="sub_inmuebles_edit">
  
                 </div>
                 <button type="button" id="btn-add-to-select-sub-inm-edit">Añadir</button>
+<!--                <button type="button" id="remove_sub_inmueble_edit_select">Limpiar</button>-->
             </div>
  
             <!-- contador de hijos -->

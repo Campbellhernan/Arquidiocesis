@@ -25,6 +25,7 @@ $abogado_redactor = $_REQUEST['abogado_redactor_doc'];
 $estatus = $_REQUEST['estatus'];
 $map_position = $_REQUEST['map_position'];
 $contador_hijos_edit = $_REQUEST['contador_hijos_edit'];
+$zona = $_REQUEST['zona_edit'];
 
 $hijos = array();
 for($i=0; $i <= $contador_hijos_edit; $i++){
@@ -38,7 +39,7 @@ if ($fecha) {
     }
 }
 
-$query = "update inmueble set cod_inm = '$cod_inm', direccion = '$direccion', modo_adq = '$modo_adq', metraje = '$metraje', tipo_inm = '$tipo_inm', linderos = '$linderos', descripcion = '$descripcion', archiprestazgo = '$archiprestazgo', parroquia = '$parroquia', fecha = '$fecha', datos_registro = '$datos_registro', abogado_redactor = '$abogado_redactor', estatus = '$estatus', map_position = '$map_position' where id_inm = $id_inm";
+$query = "update inmueble set cod_inm = '$cod_inm', direccion = '$direccion', modo_adq = '$modo_adq', metraje = '$metraje', tipo_inm = '$tipo_inm', linderos = '$linderos', descripcion = '$descripcion', archiprestazgo = '$archiprestazgo', parroquia = '$parroquia', fecha = '$fecha', datos_registro = '$datos_registro', abogado_redactor = '$abogado_redactor', estatus = '$estatus', map_position = '$map_position', zona = '$zona' where id_inm = $id_inm";
 
 mysqli_query($conexion, $query);
 

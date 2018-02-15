@@ -48,7 +48,7 @@
 
 
 	} else {
-		$consulta_base = "select id_inm, cod_inm, modo_adq as id_adq, descripcion, direccion, metraje, tipo_inm, linderos, fecha, datos_registro, abogado_redactor, estatus, map_position,".
+		$consulta_base = "select id_inm, cod_inm, modo_adq as id_adq, descripcion, direccion, metraje, tipo_inm, linderos, fecha, datos_registro, abogado_redactor, estatus, map_position, zona, ".
 						 "(select archi.nom_arch from archiprestazgo as archi where archi.id_arch = archiprestazgo) as nom_arch, ".
 						 "(select parr.nom_parro from parroquia as parr where parr.id_parro = parroquia) as nom_parro, ".
 						 "(select nombre from tipo_documento as tipo where tipo.id = id_adq) as modo_adq ".
@@ -157,6 +157,10 @@
 			if (is_dir($folder)) {
 				$archivos  = array_diff(scandir($folder), array('.', '..'));
 			}
+            $agregar_zona = "";
+            if(null != $fila['zona']){
+                $agregar_zona = "<p><span style='font-weight:bold'>Zona:</span> " . $fila['zona'] . "</p>";
+            }
 
 			echo		"<!--<div style='float:right; margin-right:15px; border:1px solid blue;'><a data-inm='".$fila['id_inm']."' class='ver_docs' href='#'><img src='../documents2.png' width='48px' height='51px' alt='Ver Documentos'></a></div>-->
 						</div>
@@ -165,7 +169,8 @@
 							<!-- Tab panes -->
 							<div class='tab-content'>
 								<div class='tab-pane fade in active' id='home-pills'>
-									<div class='col-lg-7'>
+									<div class='col-lg-7'>".
+                                        $agregar_zona."
 										<p><span style='font-weight:bold'>Archiprestazgo:</span> " . $fila['nom_arch'] . "</p>
 										<p><span style='font-weight:bold'>Parroquia:</span> " . $fila['nom_parro'] . "</p>
 										<p><span style='font-weight:bold'>Direccion:</span> ".$fila['direccion']."</p>
@@ -212,7 +217,7 @@
             $inmuebles_hijos = mysqli_query($conexion, $consulta_subinmuebles) or die('Problemas con la consulta');
             $num_total_inmuebles_hijos= mysqli_num_rows($inmuebles_hijos);
             if($num_total_inmuebles_hijos > 0){
-                echo "<h4>Sub-Inmuebles</h4>";
+                echo "<h4>Desincorporaciones Parciales</h4>";
                 echo "<div class='row'>
                   <div class='col-md-12'>
                     <ul class='list-group'>";
@@ -221,11 +226,11 @@
             {
                 //echo $hijo["DIN_HIJO"];
                 //ya tengo el id del hijo, obtengo el nombre y lo imprimo
-                $consulta_codigo_hijo = "SELECT `cod_inm` FROM `inmueble` WHERE id_inm = ".$hijo["DIN_HIJO"];
+                $consulta_codigo_hijo = "SELECT `cod_inm`, zona FROM `inmueble` WHERE id_inm = ".$hijo["DIN_HIJO"];
                 $cod_inm_temp = mysqli_query($conexion, $consulta_codigo_hijo) or die('Problemas con la consulta');
                 $row_cod_inm = $cod_inm_temp->fetch_array();
 //                echo "Codigo del inmueble: ";
-                echo "<li class='list-group-item'>".$row_cod_inm["cod_inm"]."</li>";
+                echo "<li class='list-group-item'>".$row_cod_inm["cod_inm"]. " ".$row_cod_inm["zona"]."</li>";
             }
             if($num_total_inmuebles_hijos > 0){
                 echo "</ul>

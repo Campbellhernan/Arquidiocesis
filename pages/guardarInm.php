@@ -23,13 +23,14 @@ $datos_registro = $_REQUEST['datos_registro_doc'];
 $abogado_redactor = $_REQUEST['abogado_redactor_doc'];
 $map_position = $_REQUEST['map_position'];
 $sub_inmuebles = $_REQUEST['sub_inmueble_select'];
+$zona = $_REQUEST['zona'];
 
 echo $sub_inmuebles;
 
 $estatus = $_REQUEST['estatus'];
 
-$consulta = "insert into inmueble (cod_inm, direccion, modo_adq, metraje, tipo_inm, descripcion, linderos, archiprestazgo, parroquia, fecha, datos_registro, abogado_redactor, estatus, map_position)
-			values ('$cod_inm', '$direccion', '$modo_adq', '$metraje', '$tipo_inm', '$descripcion', '$linderos', '$archiprestazgo', '$parroquia', '$fecha', '$datos_registro', '$abogado_redactor', '$estatus', '$map_position')";
+$consulta = "insert into inmueble (cod_inm, direccion, modo_adq, metraje, tipo_inm, descripcion, linderos, archiprestazgo, parroquia, fecha, datos_registro, abogado_redactor, estatus, map_position, zona)
+			values ('$cod_inm', '$direccion', '$modo_adq', '$metraje', '$tipo_inm', '$descripcion', '$linderos', '$archiprestazgo', '$parroquia', '$fecha', '$datos_registro', '$abogado_redactor', '$estatus', '$map_position', '$zona')";
 
 mysqli_query($conexion, $consulta) or die("Error en la insercion de inmueble");
 
