@@ -48,11 +48,13 @@
 
 
 	} else {
-		$consulta_base = "select id_inm, cod_inm, modo_adq as id_adq, descripcion, direccion, metraje, tipo_inm, linderos, fecha, datos_registro, abogado_redactor, estatus, map_position, zona, ".
-						 "(select archi.nom_arch from archiprestazgo as archi where archi.id_arch = archiprestazgo) as nom_arch, ".
-						 "(select parr.nom_parro from parroquia as parr where parr.id_parro = parroquia) as nom_parro, ".
-						 "(select nombre from tipo_documento as tipo where tipo.id = id_adq) as modo_adq ".
-						 " from inmueble";
+		$consulta_base = "select id_inm, descripcion, modo_adq as id_adq, direccion, metraje, tipo_inm, linderos, fecha, datos_registro, abogado_redactor, estatus, map_position, zona, ".
+		"(select archi.nom_arch from archiprestazgo as archi where archi.id_arch = archiprestazgo) as nom_arch, ".
+		"(select parr.nom_parro from parroquia as parr where parr.id_parro = parroquia) as nom_parro, ".
+		"(select nombre from tipo_documento as tipo where tipo.id = id_adq) as modo_adq, ".
+		"(select count(*) from din_divisiones_inmuebles where din_hijo = id_inm) as es_hijo, ".
+		"CASE WHEN (select count(*) from din_divisiones_inmuebles where din_hijo = id_inm) > 0 THEN (select din_divisiones_inmuebles.cod_inm from din_divisiones_inmuebles where din_hijo = id_inm LIMIT 1)  ELSE inmueble.cod_inm END as cod_inm ".
+		"from inmueble order by fecha_add_inm DESC";
 
 		$where = "";
 
@@ -133,7 +135,11 @@
 
         while($fila = mysqli_fetch_array($registros))
         {
-			echo	"<div class='panel panel-primary'>
+			$color = "panel-primary";
+			if($fila['es_hijo'] > 0){
+				$color = "panel-info";
+			}
+			echo	"<div class='panel $color'>
 						<div class='panel-heading'><span style='font-weight:bold'>Codigo del Inmueble:</span> ".$fila['cod_inm'];
 			if($_SESSION['rol']=='Administrador')//Tiene permiso para borrar un documento
 			{
@@ -212,7 +218,7 @@
             echo "<div class='col-lg-12'>";
 
             //consulta de los hijos
-            $consulta_subinmuebles = "SELECT `DIN_HIJO` FROM `din_divisiones_inmuebles` WHERE DIN_PADRE = ".$fila['id_inm'];
+            $consulta_subinmuebles = "SELECT `DIN_HIJO`,`COD_INM`  FROM `din_divisiones_inmuebles` WHERE DIN_PADRE = ".$fila['id_inm'];
             //echo "Consulta: ".$consulta_subinmuebles;
             $inmuebles_hijos = mysqli_query($conexion, $consulta_subinmuebles) or die('Problemas con la consulta');
             $num_total_inmuebles_hijos= mysqli_num_rows($inmuebles_hijos);
@@ -230,7 +236,7 @@
                 $cod_inm_temp = mysqli_query($conexion, $consulta_codigo_hijo) or die('Problemas con la consulta');
                 $row_cod_inm = $cod_inm_temp->fetch_array();
 //                echo "Codigo del inmueble: ";
-                echo "<li class='list-group-item'>".$row_cod_inm["cod_inm"]. " ".$row_cod_inm["zona"]."</li>";
+                echo "<li class='list-group-item'>".$hijo["COD_INM"]. " ".$row_cod_inm["zona"]."</li>";
             }
             if($num_total_inmuebles_hijos > 0){
                 echo "</ul>

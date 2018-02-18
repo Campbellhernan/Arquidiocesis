@@ -25,7 +25,6 @@ $abogado_redactor = $_REQUEST['abogado_redactor_doc'];
 $estatus = $_REQUEST['estatus'];
 $map_position = $_REQUEST['map_position'];
 $contador_hijos_edit = $_REQUEST['contador_hijos_edit'];
-$zona = $_REQUEST['zona_edit'];
 
 $hijos = array();
 for($i=0; $i <= $contador_hijos_edit; $i++){
@@ -39,7 +38,7 @@ if ($fecha) {
     }
 }
 
-$query = "update inmueble set cod_inm = '$cod_inm', direccion = '$direccion', modo_adq = '$modo_adq', metraje = '$metraje', tipo_inm = '$tipo_inm', linderos = '$linderos', descripcion = '$descripcion', archiprestazgo = '$archiprestazgo', parroquia = '$parroquia', fecha = '$fecha', datos_registro = '$datos_registro', abogado_redactor = '$abogado_redactor', estatus = '$estatus', map_position = '$map_position', zona = '$zona' where id_inm = $id_inm";
+$query = "update inmueble set cod_inm = '$cod_inm', direccion = '$direccion', modo_adq = '$modo_adq', metraje = '$metraje', tipo_inm = '$tipo_inm', linderos = '$linderos', descripcion = '$descripcion', archiprestazgo = '$archiprestazgo', parroquia = '$parroquia', fecha = '$fecha', datos_registro = '$datos_registro', abogado_redactor = '$abogado_redactor', estatus = '$estatus', map_position = '$map_position' where id_inm = $id_inm";
 
 mysqli_query($conexion, $query);
 
@@ -74,7 +73,7 @@ foreach ($hijos as $inmueble_temporal){
         $actualizacion = "INSERT INTO `din_divisiones_inmuebles` (`DIN_PADRE`, `DIN_HIJO`) VALUES ('$id_inm', '$inmueble_temporal')";
     }
     $new_cod_inm = $cod_inm."-".str_pad($indice + 1, 3, "0", STR_PAD_LEFT);
-    $UptCode = "UPDATE din_divisiones_inmuebles SET COD_INM = '$new_cod_inm' WHERE DIN_HIJO = '$inmueble_temporal' AND DIN_PADRE = '$id_inm' ";
+    $UptCode = "UPDATE INMUEBLE SET COD_INM = '$new_cod_inm' WHERE ID_INM = '$inmueble_temporal' ";
     echo json_encode($inmueble_temporal);
     mysqli_query($conexion, $actualizacion) or die("Error en la insercion de la relacion");
     mysqli_query($conexion, $UptCode) or die(mysqli_error($conexion));

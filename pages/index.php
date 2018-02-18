@@ -12,10 +12,12 @@ include('../librerias/conexion.php');
 
 $_SESSION['ultima_consulta'] = "select id_doc, cod_doc, tipo, datos_registro, abogado_redactor, descripcion from documento order by fecha_add_doc DESC";
 $_SESSION['ultima_pagina'] = 1;
-$_SESSION['ultima_consulta_inmueble'] = "select id_inm, cod_inm, descripcion, modo_adq as id_adq, direccion, metraje, tipo_inm, linderos, fecha, datos_registro, abogado_redactor, estatus, map_position, ".
+$_SESSION['ultima_consulta_inmueble'] = "select id_inm, cod_inm, descripcion, modo_adq as id_adq, direccion, metraje, tipo_inm, linderos, fecha, datos_registro, abogado_redactor, estatus, map_position, zona, ".
 										"(select archi.nom_arch from archiprestazgo as archi where archi.id_arch = archiprestazgo) as nom_arch, ".
 										"(select parr.nom_parro from parroquia as parr where parr.id_parro = parroquia) as nom_parro, ".
-										"(select nombre from tipo_documento as tipo where tipo.id = id_adq) as modo_adq ".
+										"(select nombre from tipo_documento as tipo where tipo.id = id_adq) as modo_adq, ".
+										"(select count(*) from din_divisiones_inmuebles where din_hijo = id_inm) as es_hijo, ".
+										"CASE WHEN (select count(*) from din_divisiones_inmuebles where din_hijo = id_inm) > 0 THEN (select din_divisiones_inmuebles.cod_inm from din_divisiones_inmuebles where din_hijo = id_inm LIMIT 1)  ELSE inmueble.cod_inm END as cod_inm ".
 										"from inmueble order by fecha_add_inm DESC";
 $_SESSION['ultima_pagina_inmueble'] = 1;
 ?>
@@ -50,7 +52,7 @@ $_SESSION['ultima_pagina_inmueble'] = 1;
 
 	<!--  Jquery-ui css  -->
     <link rel="stylesheet" href="../jquery-ui/jquery-ui.css">
-
+	
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

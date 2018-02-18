@@ -140,8 +140,14 @@
         event.preventDefault();
         updateInm();
     });
+    $("#sub_inmuebles_edit").on("click", ".eliminar_hijo", function(event) {
+        var desincorporacion = $('#desincorporacion_' + $(this).data('inm'));
+        desincorporacion.data('operacion','delete');
+        desincorporacion.hide();
+    });
 
     $("#mostrarInmuebles").on("click", ".edit_inm", function(event) {
+
         event.preventDefault();
             $("#sub_inmuebles_edit").empty();
 
@@ -156,6 +162,31 @@
             data_for_sub_inmuebles = data2;
         });
 
+        var desincorporaciones = [];
+        $.ajax({
+            url: 'selectDesincorporaciones.php?id_inm='+$(this).data('inm'),
+            type: 'GET',
+            dataType: 'json',
+            success: function(data){
+                desincorporaciones = data.desincorporaciones;
+                var list_of_dropdowns = new Array();
+                
+                    for(j=0; j < desincorporaciones.length; j++) {
+                        var text = desincorporaciones[j].cod_inm + " - " + desincorporaciones[j].zona;
+                        list_of_dropdowns[list_of_dropdowns.length] = ("<div id = desincorporacion_" + desincorporaciones[j].id_inm + " style='display: flex;margin-bottom: 10px;'><select id=\"sub_inmueble_select_edit_" + j + "\" name =\"sub_inmueble_select_edit_" + j + "\" class=\"form-control\">\n" +
+                        "<option value=" + desincorporaciones[j].id_inm + " selected='selected'>" + text + "</option>"
+                            + data_for_sub_inmuebles + "</select> <span class='eliminar_hijo' data-inm='" + desincorporaciones[j].id_inm + "' style='margin-left: 15px;margin-top: 4px;cursor: pointer;'><img src='../papelera.jpg' width='24px' height='24px' alt='Eliminar Inmueble'></span></div>");
+                    }
+                    //ahora lo agrego a la pagina
+                    for(j=0; j < desincorporaciones.length; j++) {  
+                        $("#sub_inmuebles_edit").append(list_of_dropdowns[j]);
+                    }
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+
         $.getJSON("enviarDatosDeInm.php?id_inm="+$(this).data('inm'), function(data) {
 
             //necesito tomar el div sub_inmuebles
@@ -164,25 +195,15 @@
             //coloco el boton y listo
             //faltaria revisar el guardado
             //ahora armo los dropdowns
-            console.log(data.hijos);
-            var list_of_dropdowns = new Array();
-
-            for(j=0; j < data.hijos.length; j++) {
-                list_of_dropdowns[list_of_dropdowns.length] = ("<select id=\"sub_inmueble_select_edit_" + j + "\" name =\"sub_inmueble_select_edit_" + j + "\" class=\"form-control\">\n" +
-                    "                       <option value=\"ningun\">Seleccionar</option>"
-                    + data_for_sub_inmuebles + "</select>");
-            }
-            //ahora lo agrego a la pagina
-            for(j=0; j < list_of_dropdowns.length; j++) {
-                $("#sub_inmuebles_edit").append(list_of_dropdowns[j]);
-            }
+            //console.log(data.hijos);
 
 
-            for(i=0; i < data.hijos.length; i++) {
-                $("#sub_inmueble_select_edit_" + i).val();
-                $("#sub_inmueble_select_edit_" + i).val(data.valores_hijos[i]);
-                $("#sub_inmueble_select_edit_" + i).val();
-            }
+
+            //for(i=0; i < data.hijos.length; i++) {
+            //    $("#sub_inmueble_select_edit_" + i).val();
+            //    $("#sub_inmueble_select_edit_" + i).val(data.valores_hijos[i]);
+            //    $("#sub_inmueble_select_edit_" + i).val();
+            //}
 
             $("#contador_hijos_edit").val(parseInt(data.hijos.length-1));
             // for(j=0; j < data.hijos.length; j++){
@@ -239,7 +260,10 @@
             });
 
             $("#maps_editar_hidden").val(data.map_position);
-
+            if(data.es_hijo > 0){
+                $("#archiprestazgo_edit").prop( "disabled", true );
+                $("#parroquia_edit").prop( "disabled", true );
+            }
             var values = data.map_position ? JSON.parse(data.map_position): {'type': 'none'};
 
             var marker;

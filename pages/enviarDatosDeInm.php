@@ -4,7 +4,7 @@ $conexion = conectar();
 
 $id_inm = $_REQUEST['id_inm'];
 
-$registros = mysqli_query($conexion, "select * from inmueble where id_inm = $id_inm");
+$registros = mysqli_query($conexion, "select `id_inm`, `cod_inm`, `descripcion`, `modo_adq`, `direccion`, `metraje`, `tipo_inm`, `fecha_add_inm`, `linderos`, `archiprestazgo`, `parroquia`, `fecha`, `datos_registro`, `abogado_redactor`, `estatus`, `map_position`, `zona`, (select count(*) from din_divisiones_inmuebles where din_hijo = $id_inm) as es_hijo from inmueble where id_inm = $id_inm");
 $fila = mysqli_fetch_array($registros);
 
 $fecha = date_create_from_format("Y-m-d", $fila['fecha']);

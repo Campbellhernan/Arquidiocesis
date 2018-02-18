@@ -165,7 +165,7 @@
         autoOpen: false,
         height: 600,
         width: 1000,
-        modal: false,
+        modal: true,
         buttons: {
             "Guardar cambios": createInm,
             Cancelar: function() {
