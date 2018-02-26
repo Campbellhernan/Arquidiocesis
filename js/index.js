@@ -109,9 +109,10 @@ $(function(){
         console.log("Valor 3: " + $("#contador_hijos").val(count));
 
         $.get("selectSubInmuebles.php", function(data) {
-            $("#sub_inmuebles").append("<select name=\"sub_inmueble_select["+count+"]\" class=\"form-control\">\n" +
+            $("#sub_inmuebles").append("<select id=\"sub_inmueble_select_"+count+"\" name=\"sub_inmueble_select["+count+"]\" class=\"form-control\">\n" +
                 "                       <option value=\"ningun\">Seleccionar</option>"
-                + data + "</select>");
+                + data + "</select> <span id=\"sub_inmueble_select_remove_"+count+"\" class='eliminar_hijo_on_creation' data-inm='" + count + "' style='margin-left: 15px;margin-top: 4px;cursor: pointer;'><img src='../papelera.jpg' width='24px' height='24px' alt='Eliminar Inmueble'></span>");
+        // <span class='eliminar_hijo' data-inm='" + desincorporaciones[j].id_inm + "' style='margin-left: 15px;margin-top: 4px;cursor: pointer;'><img src='../papelera.jpg' width='24px' height='24px' alt='Eliminar Inmueble'></span>
         });
 
 
@@ -138,7 +139,7 @@ $(function(){
         $.get("selectSubInmuebles.php", function(data) {
             $("#sub_inmuebles_edit").append("<select id=\"sub_inmueble_select_edit_"+count+"\" name=\"sub_inmueble_select_edit_"+count+"\" class=\"form-control\">\n" +
                 "                       <option value=\"ningun\">Seleccionar</option>"
-                + data + "</select>");
+                + data + "</select> <span id=\"sub_inmueble_edit_select_remove_"+count+"\" class='eliminar_hijo_on_edition' data-inm='" + count + "' style='margin-left: 15px;margin-top: 4px;cursor: pointer;'><img src='../papelera.jpg' width='24px' height='24px' alt='Eliminar Inmueble'></span>");
         });
 
 

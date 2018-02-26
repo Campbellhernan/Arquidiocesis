@@ -68,16 +68,23 @@ while($id_relacion_inmueble_temporal = mysqli_fetch_array($resultado_hijos)){
 //necesito el id dmysqli_query($conexion, $get_ids)el inmueble, no el codigo
 $indice = 0;
 foreach ($hijos as $inmueble_temporal){
-    if($ids_relaciones_inmuebles[$indice]!=null) {
-        $actualizacion = "UPDATE `din_divisiones_inmuebles` SET DIN_PADRE = $id_inm, DIN_HIJO = $inmueble_temporal WHERE DIN_ID = $ids_relaciones_inmuebles[$indice]";
-    }else{
-        $actualizacion = "INSERT INTO `din_divisiones_inmuebles` (`DIN_PADRE`, `DIN_HIJO`) VALUES ('$id_inm', '$inmueble_temporal')";
+    if($inmueble_temporal!="ningun") {
+        if ($ids_relaciones_inmuebles[$indice] != null) {
+            if ($inmueble_temporal != null) {
+                $actualizacion = "UPDATE `din_divisiones_inmuebles` SET DIN_PADRE = $id_inm, DIN_HIJO = $inmueble_temporal WHERE DIN_ID = $ids_relaciones_inmuebles[$indice]";
+            } else {
+                $actualizacion = "DELETE FROM `din_divisiones_inmuebles` WHERE DIN_ID = $ids_relaciones_inmuebles[$indice]";
+            }
+        } else {
+            $actualizacion = "INSERT INTO `din_divisiones_inmuebles` (`DIN_PADRE`, `DIN_HIJO`) VALUES ('$id_inm', '$inmueble_temporal')";
+        }
+
+        $new_cod_inm = $cod_inm . "-" . str_pad($indice + 1, 3, "0", STR_PAD_LEFT);
+        $UptCode = "UPDATE din_divisiones_inmuebles SET COD_INM = '$new_cod_inm' WHERE DIN_HIJO = '$inmueble_temporal' AND DIN_PADRE = '$id_inm' ";
+        echo json_encode($inmueble_temporal);
+        mysqli_query($conexion, $actualizacion) or die("Error en la insercion de la relacion");
+        mysqli_query($conexion, $UptCode) or die(mysqli_error($conexion));
     }
-    $new_cod_inm = $cod_inm."-".str_pad($indice + 1, 3, "0", STR_PAD_LEFT);
-    $UptCode = "UPDATE din_divisiones_inmuebles SET COD_INM = '$new_cod_inm' WHERE DIN_HIJO = '$inmueble_temporal' AND DIN_PADRE = '$id_inm' ";
-    echo json_encode($inmueble_temporal);
-    mysqli_query($conexion, $actualizacion) or die("Error en la insercion de la relacion");
-    mysqli_query($conexion, $UptCode) or die(mysqli_error($conexion));
     $indice++;
 }
 //tengo que verificar si el hijo esta en el array

@@ -143,8 +143,16 @@
     $("#sub_inmuebles_edit").on("click", ".eliminar_hijo", function(event) {
         var desincorporacion = $('#desincorporacion_' + $(this).data('inm'));
         desincorporacion.data('operacion','delete');
-        desincorporacion.hide();
+        desincorporacion.detach();
     });
+
+      $("#sub_inmuebles_edit").on("click", ".eliminar_hijo_on_edition", function(event) {
+          var desincorporacion = $('#sub_inmueble_select_edit_' + $(this).data('inm') + '');
+          // desincorporacion.data('operacion','delete');
+          desincorporacion.detach();
+          var desincorporacion2 = $('#sub_inmueble_edit_select_remove_' + $(this).data('inm') + '');
+          desincorporacion2.detach();
+      });
 
     $("#mostrarInmuebles").on("click", ".edit_inm", function(event) {
 

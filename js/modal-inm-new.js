@@ -111,6 +111,14 @@
 		return true;
 	}
 
+      $("#sub_inmuebles").on("click", ".eliminar_hijo_on_creation", function(event) {
+          var desincorporacion = $('#sub_inmueble_select_' + $(this).data('inm') + '');
+          // desincorporacion.data('operacion','delete');
+          desincorporacion.detach();
+          var desincorporacion2 = $('#sub_inmueble_select_remove_' + $(this).data('inm') + '');
+          desincorporacion2.detach();
+      });
+
     function createInm() {
         var valid = true;
         allFields.removeClass("ui-state-error");
