@@ -14,9 +14,16 @@
 						"(select nombre from tipo_documento as tipo where tipo.id = id_adq) as modo_adq, ".
 						"(select count(*) from din_divisiones_inmuebles where din_hijo = id_inm) as es_hijo, ".
 						"CASE WHEN (select count(*) from din_divisiones_inmuebles where din_hijo = id_inm) > 0 THEN (select din_divisiones_inmuebles.cod_inm from din_divisiones_inmuebles where din_hijo = id_inm LIMIT 1)  ELSE inmueble.cod_inm END as cod_inm ".
-						"from inmueble order by fecha_add_inm DESC";
+						"from inmueble ";
+	
+	if (isset($_REQUEST['id_inm']) && $_REQUEST['id_inm'] != "") {
+		$cod_inm = $_REQUEST['id_inm'];
+		$consulta_ejecutar = $consulta_ejecutar . " where id_inm = $cod_inm ";
+	}
 
-	$registros = mysqli_query($conexion, $consulta_ejecutar) or die('Problemas con la consulta');
+	$consulta_ejecutar = $consulta_ejecutar . " order by fecha_add_inm DESC";
+
+	$registros = mysqli_query($conexion, $consulta_ejecutar) or die($consulta_ejecutar);
 	$num_total_registros = mysqli_num_rows($registros);
 
 	echo	"<div class='row'>
@@ -142,11 +149,12 @@
 				{
 					//echo $hijo["DIN_HIJO"];
 					//ya tengo el id del hijo, obtengo el nombre y lo imprimo
-                $consulta_codigo_hijo = "SELECT `cod_inm`, zona FROM `inmueble` WHERE id_inm = ".$hijo["DIN_HIJO"];
+                $consulta_codigo_hijo = "SELECT `cod_inm`, zona, id_inm FROM `inmueble` WHERE id_inm = ".$hijo["DIN_HIJO"];
 					$cod_inm_temp = mysqli_query($conexion, $consulta_codigo_hijo) or die('Problemas con la consulta');
 					$row_cod_inm = $cod_inm_temp->fetch_array();
+					$id_inm = $hijo["DIN_HIJO"];
 	//                echo "Codigo del inmueble: ";
-                echo "<li class='list-group-item'>".$hijo["COD_INM"]. " ". $row_cod_inm["zona"]."</li>";
+                echo "<li style='cursor:pointer;'class='list-group-item hijo_inm' data-hijo_inm='$id_inm'>".$hijo["COD_INM"]. " ". $row_cod_inm["zona"]."</li>";
 				}
 				if($num_total_inmuebles_hijos > 0){
 							echo "</ul>

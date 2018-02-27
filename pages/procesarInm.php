@@ -54,7 +54,7 @@
 		"(select nombre from tipo_documento as tipo where tipo.id = id_adq) as modo_adq, ".
 		"(select count(*) from din_divisiones_inmuebles where din_hijo = id_inm) as es_hijo, ".
 		"CASE WHEN (select count(*) from din_divisiones_inmuebles where din_hijo = id_inm) > 0 THEN (select din_divisiones_inmuebles.cod_inm from din_divisiones_inmuebles where din_hijo = id_inm LIMIT 1)  ELSE inmueble.cod_inm END as cod_inm ".
-		"from inmueble order by fecha_add_inm DESC";
+		"from inmueble";
 
 		$where = "";
 

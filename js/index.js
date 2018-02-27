@@ -57,7 +57,12 @@ $(function(){
 			});
 		}
 	});
-
+	$(".hijo_inm").on("click", function () {
+		var getUrl = window.location;
+		var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+		window.open(baseUrl + '/pages/index.php?id_inm=' + $(this).data('hijo_inm'));
+		return false;
+	});
 	function propietarioValido() {
 		if ((archiprestazgo_busqueda.val() == "ningun" && direccion_busqueda.val() == '')) {
 			errorBusqInm.text("Debe seleccionar algo en el campo Archiprestazgo o Direccion");
