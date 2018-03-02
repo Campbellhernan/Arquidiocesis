@@ -57,7 +57,8 @@ $(function(){
 			});
 		}
 	});
-	$(".hijo_inm").on("click", function () {
+	$('body').on("click", ".hijo_inm",function (event) {
+		event.preventDefault();
 		var getUrl = window.location;
 		var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
 		window.open(baseUrl + '/pages/index.php?id_inm=' + $(this).data('hijo_inm'));
@@ -102,16 +103,16 @@ $(function(){
     });
     //obtengo la accion de agregar del boton y agrego otro option al select
     $("#btn-add-to-select-sub-inm").click(function(){
-    	console.log("entro");
+    	//console.log("entro");
     	var to_append;
 
         var count = parseInt($("#contador_hijos").val());
-        console.log("Valor 1: " + count);
+        //console.log("Valor 1: " + count);
         var count = parseInt(count) + 1;
-        console.log("Valor 2: " + count);
+        //console.log("Valor 2: " + count);
         $("#contador_hijos").val(parseInt(count));
         $("#ultimo_contador_hijos").val(parseInt(count));
-        console.log("Valor 3: " + $("#contador_hijos").val(count));
+        //console.log("Valor 3: " + $("#contador_hijos").val(count));
 
         $.get("selectSubInmuebles.php", function(data) {
             $("#sub_inmuebles").append("<select id=\"sub_inmueble_select_"+count+"\" name=\"sub_inmueble_select["+count+"]\" class=\"form-control\">\n" +
@@ -131,20 +132,20 @@ $(function(){
 
     //obtengo la accion de agregar del boton y agrego otro option al select
     $("#btn-add-to-select-sub-inm-edit").click(function(){
-        console.log("entro");
+       // console.log("entro");
         var to_append;
 
         var count = parseInt($("#contador_hijos_edit").val());
-        console.log("Valor 1: " + count);
+        //console.log("Valor 1: " + count);
         var count = parseInt(count) + 1;
-        console.log("Valor 2: " + count);
+        //console.log("Valor 2: " + count);
         $("#contador_hijos_edit").val(parseInt(count));
-        console.log("Valor 3: " + $("#contador_hijos_edit").val(count));
+        //console.log("Valor 3: " + $("#contador_hijos_edit").val(count));
 
         $.get("selectSubInmuebles.php", function(data) {
-            $("#sub_inmuebles_edit").append("<select id=\"sub_inmueble_select_edit_"+count+"\" name=\"sub_inmueble_select_edit_"+count+"\" class=\"form-control\">\n" +
+            $("#sub_inmuebles_edit").append("<div style='display: flex;margin-bottom: 10px;'><select id=\"sub_inmueble_select_edit_"+count+"\" name=\"sub_inmueble_select_edit_"+count+"\" class=\"form-control\">\n" +
                 "                       <option value=\"ningun\">Seleccionar</option>"
-                + data + "</select> <span id=\"sub_inmueble_edit_select_remove_"+count+"\" class='eliminar_hijo_on_edition' data-inm='" + count + "' style='margin-left: 15px;margin-top: 4px;cursor: pointer;'><img src='../papelera.jpg' width='24px' height='24px' alt='Eliminar Inmueble'></span>");
+                + data + "</select> <span id=\"sub_inmueble_edit_select_remove_"+count+"\" class='eliminar_hijo_on_edition' data-inm='" + count + "' style='margin-left: 15px;margin-top: 4px;cursor: pointer;'><img src='../papelera.jpg' width='24px' height='24px' alt='Eliminar Inmueble'></span></div>");
         });
 
 

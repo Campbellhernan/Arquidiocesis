@@ -232,11 +232,12 @@
             {
                 //echo $hijo["DIN_HIJO"];
                 //ya tengo el id del hijo, obtengo el nombre y lo imprimo
-                $consulta_codigo_hijo = "SELECT `cod_inm`, zona FROM `inmueble` WHERE id_inm = ".$hijo["DIN_HIJO"];
-                $cod_inm_temp = mysqli_query($conexion, $consulta_codigo_hijo) or die('Problemas con la consulta');
-                $row_cod_inm = $cod_inm_temp->fetch_array();
+                $consulta_codigo_hijo = "SELECT `cod_inm`, zona, id_inm FROM `inmueble` WHERE id_inm = ".$hijo["DIN_HIJO"];
+				$cod_inm_temp = mysqli_query($conexion, $consulta_codigo_hijo) or die('Problemas con la consulta');
+				$row_cod_inm = $cod_inm_temp->fetch_array();
+				$id_inm = $hijo["DIN_HIJO"];
 //                echo "Codigo del inmueble: ";
-                echo "<li class='list-group-item'>".$hijo["COD_INM"]. " ".$row_cod_inm["zona"]."</li>";
+				echo "<li style='cursor:pointer;'class='list-group-item hijo_inm' data-hijo_inm='$id_inm'>".$hijo["COD_INM"]. " ". $row_cod_inm["zona"]."</li>";
             }
             if($num_total_inmuebles_hijos > 0){
                 echo "</ul>
